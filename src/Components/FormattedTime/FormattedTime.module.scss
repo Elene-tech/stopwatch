@@ -1,0 +1,20 @@
+@import '../../styles/settings.scss';
+
+.formattedTime {
+  text-align: center;
+  margin-top: 200px;
+  .button {
+    margin: 40px 10px;
+    padding: 10px 14px;
+    border-radius: $radius;
+    color: white;
+    background-color: purple;
+    border-color: rgb(69, 8, 69);
+  }
+  .button_container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+}
