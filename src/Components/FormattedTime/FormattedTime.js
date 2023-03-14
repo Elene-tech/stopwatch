@@ -3,9 +3,6 @@ import styles from '../FormattedTime/FormattedTime.module.scss';
 import { useEffect } from 'react';
 
 const FormattedTime = () => {
-  const [hour, setHour] = useState(0);
-  const [min, setMin] = useState(0);
-  const [second, setSecond] = useState(0);
   const [mSecond, setMsecond] = useState(0);
   const [interval, setMsInterval] = useState(null);
 
@@ -22,6 +19,7 @@ const FormattedTime = () => {
   const onStop = () => {
     if (interval) {
       clearInterval(interval);
+      setMsInterval(null);
     }
   };
 
@@ -29,21 +27,22 @@ const FormattedTime = () => {
     setMsecond(0);
   };
 
-  const getTimer = (mSecond) => {
-    let hours = mSecond / (1000 * 60 * 60);
-    let fullHour = Math.floor(hours);
-    let h = fullHour > 9 ? fullHour : '0' + fullHour;
+  const getTimer = (s) => {
+    const ms = s % 1000;
+    s = (s - ms) / 1000;
+    const secs = s % 60;
+    s = (s - secs) / 60;
+    const mins = s % 60;
+    const hrs = (s - mins) / 60;
 
-    let minutes = (hours - fullHour) * 60;
-    let fullMinute = Math.floor(minutes);
-    let m = fullMinute > 9 ? fullMinute : '0' + fullMinute;
-
-    let seconds = (minutes - fullMinute) * 60;
-    let fullSeconds = Math.floor(seconds);
-    let s = fullSeconds > 9 ? fullSeconds : '0' + fullSeconds;
-
-    return h + ':' + m + ':' + s;
+    return hrs + ':' + mins + ':' + secs + '.' + ms;
   };
+
+  useEffect(() => {
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div className={styles.formattedTime}>
